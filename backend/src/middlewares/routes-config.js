@@ -1,5 +1,5 @@
 const express = require("express");
-const documentsRouter = require("../app/documents/documents-controller");
+const documentsRouter = require("../app/documents/routes/documents-route");
 const librariesRouter = require("../app/libraries/libraries-controller");
 const usersRouter = require("../UserAuth/user-controller");
 const feedbackRouter = require("../app/system-feedback/feedback-controller");
