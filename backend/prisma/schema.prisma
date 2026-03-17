@@ -1,0 +1,198 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model documents {
+  id                    Int             @unique @default(autoincrement())
+  lpsNo                 String
+  files                 Json?
+  title                 String          @db.Text
+  status                Int
+  docType               String
+  action                Json
+  destinations          Json?
+  primarySources        Json
+  lastSource            Json?
+  remarks               String?         @db.Text
+  currentOwner          Json
+  manualInitials        Json?
+  autoInitials          Json?
+  acceptStatus          Int             @default(0)
+  seqNo                 Int             @default(0)
+  age                   Int             @default(0)
+  complexity            Int             @default(1)
+  complied              Json?
+  routedBy              Json?
+  classification        Int?            @default(1)
+  isReadable            Int             @default(0) //new
+  uploadedBy            Json //new
+  createdAtDateTime     DateTime
+  lastUpdateDateTime    DateTime?
+  firstAcceptedDateTime DateTime?
+  lastAcceptedDateTime  DateTime?
+  signedDateTime        DateTime?
+  fileDocuments         fileDocuments[]
+  annotations           annotations[]
+}
+
+model doclogs {
+  id                    Int       @unique @default(autoincrement())
+  docuId                Int
+  lpsNo                 String
+  files                 Json?
+  title                 String    @db.Text
+  status                Int
+  docType               String
+  action                Json
+  destinations          Json?
+  primarySources        Json
+  lastSource            Json?
+  remarks               String?   @db.Text
+  currentOwner          Json
+  manualInitials        Json?
+  autoInitials          Json?
+  acceptStatus          Int
+  seqNo                 Int
+  age                   Int
+  complexity            Int
+  complied              Json?
+  routedBy              Json?
+  classification        Int?
+  isReadable            Int       @default(0) //new
+  uploadedBy            Json //new
+  createdAtDateTime     DateTime
+  lastUpdateDateTime    DateTime?
+  firstAcceptedDateTime DateTime?
+  lastAcceptedDateTime  DateTime?
+  signedDateTime        DateTime?
+}
+
+model offices {
+  id     Int     @unique @default(autoincrement())
+  office String
+  users  users[]
+}
+
+model units {
+  id    Int     @unique @default(autoincrement())
+  unit  String
+  users users[]
+}
+
+model doctypes {
+  id      Int    @unique @default(autoincrement())
+  docType String
+}
+
+model users {
+  uid               Int      @id @default(autoincrement())
+  firstName         String
+  middleIntl        String?
+  lastName          String
+  username          String   @unique
+  password          String
+  role              Json
+  positions         Json
+  officeName        String?
+  office            offices? @relation(fields: [officeId], references: [id])
+  officeId          Int?
+  unitName          String?
+  unit              units?   @relation(fields: [unitId], references: [id])
+  unitId            Int?
+  signPath          Json?
+  changePass        Int
+  relatedUnits      Json?
+  enableFingerprint Boolean? // new
+  enableFaceRecog   Boolean? // new
+  fingerprintData   Json?
+  faceData          Json?
+  accessToken       String?
+  refreshToken      String?
+  status            Int?     @default(1)
+}
+
+model fileDocuments {
+  id         Int        @unique @default(autoincrement())
+  docuId     Int?
+  fileId     String
+  createdAt  DateTime
+  uploadedBy Json
+  documents  documents? @relation(fields: [docuId], references: [id])
+}
+
+model annotations {
+  id          Int        @unique @default(autoincrement())
+  docuId      Int?
+  annotation  String     @db.Text
+  createdAt   DateTime
+  dateUpdated DateTime?
+  annotatedBy String
+  documents   documents? @relation(fields: [docuId], references: [id])
+}
+
+model systemsettings {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique
+  value       String // Store as JSON string for complex values
+  description String? // Human-readable description
+  category    String? // Group settings (e.g., "documents", "security", "ui")
+  isActive    Boolean  @default(true)
+  createdBy   String? // Who created this setting
+  updatedBy   String? // Who last updated this setting
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model systems {
+  id        Int         @id @default(autoincrement())
+  name      String
+  feedbacks feedbacks[]
+}
+
+model divisions {
+  id        Int         @id @default(autoincrement())
+  name      String
+  feedbacks feedbacks[]
+}
+
+model feedbacks {
+  id          Int       @id @default(autoincrement())
+  name        String?
+  designation String?
+  comments    String?
+  systemId    Int
+  system      systems   @relation(fields: [systemId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?
+
+  divisionId Int
+  division   divisions         @relation(fields: [divisionId], references: [id])
+  answers    feedbackanswers[]
+
+  @@index([id])
+}
+
+model feedbackanswers {
+  id         Int       @id @default(autoincrement())
+  feedbackId Int
+  feedback   feedbacks @relation(fields: [feedbackId], references: [id])
+  criteriaId Int
+  criteria   criterias @relation(fields: [criteriaId], references: [id])
+  rating     Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime?
+}
+
+model criterias {
+  id              Int               @id @default(autoincrement())
+  label           String
+  description     String            @db.Text()
+  icon            String?
+  feedbackanswers feedbackanswers[]
+}

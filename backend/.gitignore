@@ -1,0 +1,8 @@
+node_modules
+# Keep environment variables out of version control
+migration_lock.toml
+
+certs
+.env
+/src/uploads
+/src/eSignatures

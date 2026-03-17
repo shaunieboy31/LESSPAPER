@@ -1,0 +1,46 @@
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+    color: #1f1f1f;
+  }
+
+  19% {
+    transform: translateX(0%);
+    color: #1f1f1f;
+  }
+
+  20% {
+    transform: translateX(0%);
+    color: gray;
+  }
+
+  60% {
+    transform: translateX(-100%);
+    color: gray;
+  }
+
+  61% {
+    transform: translateX(-100%);
+    color: #fff;
+  }
+
+  62% {
+    transform: translateX(130%);
+    color: #fff;
+  }
+
+  63% {
+    transform: translateX(130%);
+    color: gray;
+  }
+
+  99% {
+    transform: translateX(1%);
+    color: gray;
+  }
+
+  100% {
+    transform: translateX(0%);
+    color: #1f1f1f;
+  }
+}
