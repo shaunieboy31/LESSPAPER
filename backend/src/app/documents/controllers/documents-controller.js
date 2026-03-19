@@ -1,10 +1,11 @@
 const docuService = require("../services/documents-service");
+const signingService = require("../services/document-signing-service");
 const { setCutoffEnabled } = require("../../../../lib/utils/settingsState");
 
 const manualSignPNPKI = async (req, res) => {
   try {
     const docuId = parseInt(req.params.id, 10);
-    const signedFile = await docuService.manualSignPNPKI(docuId, req.body);
+    const signedFile = await signingService.manualSignPNPKI(docuId, req.body);
     res.status(200).json(signedFile);
   } catch (error) {
     console.log(error);
@@ -18,7 +19,7 @@ const premiumSignPdf = async (req, res) => {
   try {
     const docuId = parseInt(req.params.id, 10);
     const data = req.body;
-    const signedFile = await docuService.premiumSignPdf(docuId, data);
+    const signedFile = await signingService.premiumSignPdf(docuId, data);
     res.status(200).json(signedFile);
   } catch (error) {
     const statusCode = error.statusCode || 500;
@@ -31,7 +32,7 @@ const premiumInitializeDocument = async (req, res) => {
   try {
     const docuId = parseInt(req.params.id, 10);
     const data = req.body;
-    const initializedFile = await docuService.premiumInitializeDocument(
+    const initializedFile = await signingService.premiumInitializeDocument(
       docuId,
       data,
     );
@@ -48,7 +49,7 @@ const signDocument = async (req, res) => {
     const docuId = parseInt(req.params.id, 10);
     const { titles, ...otherDetails } = req.body;
     const titlesToCheck = titles.map((title) => title.split(" ")[0]);
-    const signedFile = await docuService.signPdf(docuId, {
+    const signedFile = await signingService.signPdf(docuId, {
       ...otherDetails,
       titlesToCheck,
     });
@@ -65,7 +66,7 @@ const initializeDocument = async (req, res) => {
     const docuId = parseInt(req.params.id, 10);
     const { titles, ...otherDetails } = req.body;
     const titlesToCheck = titles.map((title) => title.split(" ")[0]);
-    const initializedFile = await docuService.initializePdf(docuId, {
+    const initializedFile = await signingService.initializePdf(docuId, {
       ...otherDetails,
       titlesToCheck,
     });
@@ -82,7 +83,7 @@ const autoSignPNPKI = async (req, res) => {
     const docuId = parseInt(req.params.id, 10);
     const { titles, ...otherDetails } = req.body;
     const titlesToCheck = titles.map((title) => title.split(" ")[0]);
-    const signedFile = await docuService.autoSignPNPKI(docuId, {
+    const signedFile = await signingService.autoSignPNPKI(docuId, {
       ...otherDetails,
       titlesToCheck,
     });
@@ -97,7 +98,7 @@ const autoSignPNPKI = async (req, res) => {
 const undoLastDocumentAction = async (req, res) => {
   try {
     const docuId = parseInt(req.params.id, 10);
-    const unsignDocu = await docuService.undoLastDocumentAction(
+    const unsignDocu = await signingService.undoLastDocumentAction(
       docuId,
       req.body,
     );

@@ -1602,6 +1602,10 @@ async function acceptDocuments(documents, updateFields) {
   }
 }
 
+/*
+// --- REVERT BACKUP: ANNOTATIONS by Shaun DEV ---
+// The following functions were moved to annotations-service.js
+
 async function annotateDocument(data) {
   try {
     const { docuId, annotation, ...otherDetails } = data;
@@ -1678,6 +1682,7 @@ async function deleteAnnotation(annotationId) {
     throw error;
   }
 }
+*/
 
 async function holdDocument(documents, remarks) {
   try {
@@ -2400,9 +2405,9 @@ module.exports = {
   transmitDocs,
   routeDocuments,
   acceptDocuments,
-  annotateDocument,
-  updateAnnotation,
-  deleteAnnotation,
+  // annotateDocument,
+  // updateAnnotation,
+  // deleteAnnotation,
   holdDocument,
   rerouteDocument,
   saveDocument,

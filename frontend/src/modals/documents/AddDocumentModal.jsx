@@ -273,7 +273,8 @@ export default function AddDocumentModal({ open, handleClose, updateTableFunctio
                   annotation: values[key],
                   annotatedBy: `${auth?.firstName} ${auth?.lastName} from ${
                     auth?.officeId === 1 ? auth?.unitName : auth?.officeName
-                  }`
+                  }`,
+                  annotatedByUid: auth?.uid
                 })
               );
             }

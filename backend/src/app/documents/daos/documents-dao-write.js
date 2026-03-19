@@ -167,6 +167,10 @@ async function deleteDocuments(documents) {
   }
 }
 
+/*
+// --- REVERT BACKUP: ANNOTATIONS by Shaun DEV ---
+// The following functions were moved to annotations-dao-write.js
+
 async function annotateDocument(docId, data) {
   try {
     const { annotation, remarks } = data;
@@ -252,9 +256,9 @@ async function deleteAnnotation(annotationId) {
     return deletedAnnotation;
   } catch (error) {
     console.error("DAO: Error annotating document", error);
-    throw new Error(error);
   }
 }
+*/
 
 async function transmitDocs(documents, updateFields) {
   try {
@@ -383,9 +387,9 @@ module.exports = {
   updateDocument,
   revertDocument,
   deleteDocuments,
-  annotateDocument,
-  updateAnnotation,
-  deleteAnnotation,
+  // annotateDocument,
+  // updateAnnotation,
+  // deleteAnnotation,
   transmitDocs,
   acceptDocuments
 };

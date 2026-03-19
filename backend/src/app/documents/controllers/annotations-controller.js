@@ -1,10 +1,10 @@
-const docuService = require("../services/documents-service");
+const annotationsService = require("../services/annotations-service");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const annotateDocument = async (req, res) => {
     try {
-        const annotatedDoc = await docuService.annotateDocument(req.body);
+        const annotatedDoc = await annotationsService.annotateDocument(req.body);
         res.status(200).json(annotatedDoc);
     } catch (error) {
         console.log(error);
@@ -41,7 +41,7 @@ const updateAnnotation = async (req, res) => {
             return res.status(400).json({ error: "You are not allowed to edit this annotation." });
         }
 
-        const updatedAnnotation = await docuService.updateAnnotation({ annotation, ...rest });
+        const updatedAnnotation = await annotationsService.updateAnnotation({ annotation, ...rest });
         res.status(200).json(updatedAnnotation);
     } catch (error) {
         console.log(error);
@@ -78,7 +78,7 @@ const deleteAnnotation = async (req, res) => {
             return res.status(400).json({ error: "You are not allowed to delete this annotation." });
         }
 
-        const deletedAnnotation = await docuService.deleteAnnotation(parsedAnnotationId);
+        const deletedAnnotation = await annotationsService.deleteAnnotation(parsedAnnotationId);
         res.status(200).json(deletedAnnotation);
     } catch (error) {
         console.log(error);

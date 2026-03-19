@@ -111,7 +111,8 @@ export default function ReturnDocumentModal({
                 annotation: `Returned: ${values.annotation}`,
                 annotatedBy: `${auth?.firstName} ${auth?.lastName} from ${
                   auth?.officeId === 1 ? auth?.unitName : auth?.officeName
-                }`
+                }`,
+                annotatedByUid: auth?.uid
               },
               remarks: `Returned by ${auth?.firstName} ${auth?.lastName} from ${
                 auth?.officeId === 1 ? auth?.unitName : auth?.officeName

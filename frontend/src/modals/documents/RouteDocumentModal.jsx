@@ -101,7 +101,8 @@ export default function RouteDocumentModal({
                 annotation,
                 annotatedBy: `${auth?.firstName} ${auth?.lastName} from ${
                   auth?.officeId === 1 ? auth?.unitName : auth?.officeName
-                }`
+                }`,
+                annotatedByUid: auth?.uid
               }
             })
           }
