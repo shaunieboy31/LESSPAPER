@@ -127,13 +127,14 @@ model fileDocuments {
 }
 
 model annotations {
-  id          Int        @unique @default(autoincrement())
-  docuId      Int?
-  annotation  String     @db.Text
-  createdAt   DateTime
-  dateUpdated DateTime?
-  annotatedBy String
-  documents   documents? @relation(fields: [docuId], references: [id])
+  id              Int        @unique @default(autoincrement())
+  docuId          Int?
+  annotation      String     @db.Text
+  createdAt       DateTime
+  dateUpdated     DateTime?
+  annotatedBy     String
+  annotatedByUid  Int?
+  documents       documents? @relation(fields: [docuId], references: [id])
 }
 
 model systemsettings {

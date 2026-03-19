@@ -130,8 +130,7 @@ export default function EditDocumentModal({
     formData.append('removeAttachment', removeAttachment);
     formData.append(
       'remarks',
-      `${file ? 'File Updated and ' : ''}Revised by ${auth?.firstName} ${auth?.lastName} from ${
-        auth?.officeId === 1 ? auth?.unitName : auth?.officeName
+      `${file ? 'File Updated and ' : ''}Revised by ${auth?.firstName} ${auth?.lastName} from ${auth?.officeId === 1 ? auth?.unitName : auth?.officeName
       }`
     );
 
@@ -269,8 +268,8 @@ export default function EditDocumentModal({
         .catch(err => {
           setFileError(
             err.response?.data?.message ||
-              err.response?.data?.error ||
-              'Error: Uploaded file invalid'
+            err.response?.data?.error ||
+            'Error: Uploaded file invalid'
           );
           setFile(null);
           event.target.value = null;
@@ -291,19 +290,19 @@ export default function EditDocumentModal({
 
     if (confirm) {
       setLoading(true);
+      setError('');
 
       axiosPrivate
         .put(`/documents/updateAnnotation`, {
           docuId: rowData.id,
+          currentUserUid: auth?.uid,
           annotation: {
             ...annotations[index],
-            annotatedBy: `${auth?.firstName} ${auth?.lastName} from ${
-              auth?.officeId === 1 ? auth?.unitName : auth?.officeName
-            }`
+            annotatedBy: `${auth?.firstName} ${auth?.lastName} from ${auth?.officeId === 1 ? auth?.unitName : auth?.officeName
+              }`
           },
-          remarks: `Annotation updated by ${auth?.firstName} ${auth?.lastName} from ${
-            auth?.officeId === 1 ? auth?.unitName : auth?.officeName
-          }`
+          remarks: `Annotation updated by ${auth?.firstName} ${auth?.lastName} from ${auth?.officeId === 1 ? auth?.unitName : auth?.officeName
+            }`
         })
         .then(res => {
           enqueueSnackbar('Annotation Successfully Updated', {
@@ -320,7 +319,7 @@ export default function EditDocumentModal({
           updateTableFunction();
         })
         .catch(err => {
-          setError(err.response.data.error);
+          setError(err?.response?.data?.error || err?.message || 'Failed to update annotation');
         })
         .finally(() => {
           setLoading(false);
@@ -333,11 +332,13 @@ export default function EditDocumentModal({
 
     if (confirm) {
       setLoading(true);
+      setError('');
 
       axiosPrivate
         .delete(`/documents/deleteAnnotation`, {
           params: {
-            annotationId: annotations[index].id
+            annotationId: annotations[index].id,
+            currentUserUid: auth?.uid
           }
         })
         .then(() => {
@@ -351,7 +352,7 @@ export default function EditDocumentModal({
           updateTableFunction();
         })
         .catch(err => {
-          setError(err.response.data.error);
+          setError(err?.response?.data?.error || err?.message || 'Failed to delete annotation');
         })
         .finally(() => {
           setLoading(false);
@@ -1086,9 +1087,9 @@ export default function EditDocumentModal({
                   { label: 'For Routing', value: 2 },
                   ...(auth?.role?.some(role => ['admin'].includes(role))
                     ? [
-                        { label: 'For Checking', value: 3 },
-                        { label: 'Routed', value: 4 }
-                      ]
+                      { label: 'For Checking', value: 3 },
+                      { label: 'Routed', value: 4 }
+                    ]
                     : []),
                   { label: 'For Submission', value: 5 }
                 ].map(option => (

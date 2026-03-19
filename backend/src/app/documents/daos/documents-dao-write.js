@@ -182,7 +182,9 @@ async function annotateDocument(docId, data) {
 
     await prisma.annotations.create({
       data: {
-        ...annotation,
+        annotation: annotation.annotation,
+        annotatedBy: annotation.annotatedBy,
+        annotatedByUid: annotation.annotatedByUid ?? null,
         docuId: id,
         createdAt: formatToPHTime(new Date()),
       },

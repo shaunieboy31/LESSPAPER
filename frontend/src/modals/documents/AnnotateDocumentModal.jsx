@@ -54,7 +54,8 @@ export default function AnnotateDocumentModal({
               annotation: values.annotation,
               annotatedBy: `${auth?.firstName} ${auth?.lastName} from ${
                 auth?.officeId === 1 ? auth?.unitName : auth?.officeName
-              }`
+              }`,
+              annotatedByUid: auth?.uid
             },
             remarks: `Annotation added by ${auth?.firstName} ${auth?.lastName} from ${
               auth?.officeId === 1 ? auth?.unitName : auth?.officeName
