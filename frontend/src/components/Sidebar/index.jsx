@@ -339,6 +339,7 @@ function SideBar({ themeProp, drawerWidth, drawerOpenStatus, closeDrawerFunction
                       }}
                     >
                       <Typography
+                        component="div"
                         sx={{
                           fontWeight: 'bold'
                         }}

@@ -3,12 +3,12 @@ const fs = require("fs");
 const path = require("path");
 const docuDao = require("../daos/documents-dao");
 const { formatToPHTime } = require("../../../middlewares/phtimezone");
-const { 
-  getTextContentFromPage, 
-  getTimesDetected, 
-  isNameFollowedByTitle, 
-  findTextPosition, 
-  calculateCenteredX 
+const {
+  getTextContentFromPage,
+  getTimesDetected,
+  isNameFollowedByTitle,
+  findTextPosition,
+  calculateCenteredX,
 } = require("../utils/pdf-utils");
 const { updateDocument } = require("../utils/doc-utils");
 
@@ -35,7 +35,14 @@ async function signWithCoordinates(docuId, updateFields) {
         : [];
     newInitialSignatories.push(signedBy);
 
-    const filePath = path.join(__dirname, "..", "..", "..", "uploads", fileName);
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "uploads",
+      fileName,
+    );
 
     if (!fs.existsSync(filePath)) {
       throw new Error(`PDF file ${fileName} not found in uploads folder.`);
@@ -47,9 +54,7 @@ async function signWithCoordinates(docuId, updateFields) {
 
     const imgPath = path.resolve(__dirname, `../../..${signPath}`);
     if (!fs.existsSync(imgPath)) {
-      throw new Error(
-        `Signature/Initial not found: ${signPath}`,
-      );
+      throw new Error(`Signature/Initial not found: ${signPath}`);
     }
 
     const imgBytes = fs.readFileSync(imgPath);
@@ -153,7 +158,14 @@ async function manualSignPNPKI(documentId, updateFields) {
         : [];
     newInitialSignatories.push(signedBy);
 
-    const filePath = path.join(__dirname, "..", "..", "..", "uploads", fileName);
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "uploads",
+      fileName,
+    );
     if (!fs.existsSync(filePath)) {
       throw new Error(`PDF file ${fileName} not found in uploads folder.`);
     }
@@ -295,7 +307,14 @@ async function premiumSignPdf(docuId, updateFields) {
         : [];
     newInitialSignatories.push(signedBy);
 
-    const filePath = path.join(__dirname, "..", "..", "..", "uploads", fileName);
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "uploads",
+      fileName,
+    );
 
     if (!fs.existsSync(filePath)) {
       throw new Error(`PDF file ${fileName} not found in uploads folder.`);
@@ -412,7 +431,14 @@ async function premiumInitializeDocument(docuId, updateFields) {
         : [];
     newInitialSignatories.push(initialBy);
 
-    const filePath = path.join(__dirname, "..", "..", "..", "uploads", fileName);
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "uploads",
+      fileName,
+    );
 
     if (!fs.existsSync(filePath)) {
       throw new Error(`PDF file ${fileName} not found in uploads folder.`);
@@ -571,7 +597,14 @@ async function signPdf(docuId, updateFields) {
         : [];
     newInitialSignatories.push(signedBy);
 
-    const filePath = path.join(__dirname, "..", "..", "..", "uploads", fileName);
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "uploads",
+      fileName,
+    );
 
     if (!fs.existsSync(filePath)) {
       throw new Error(`PDF file ${fileName} not found in uploads folder.`);
@@ -755,7 +788,14 @@ async function initializePdf(docuId, updateFields) {
         : [];
     newInitialSignatories.push(initialBy);
 
-    const filePath = path.join(__dirname, "..", "..", "..", "uploads", fileName);
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "uploads",
+      fileName,
+    );
 
     if (!fs.existsSync(filePath)) {
       throw new Error(`PDF file ${fileName} not found in uploads folder.`);
@@ -856,9 +896,15 @@ async function initializePdf(docuId, updateFields) {
       );
 
       const docDestinations = selectedDocument.destinations;
-      const ASDSIncludedInDestinations = docDestinations.some((dest) => dest.id === 2);
-      const CIDIncludedInDestinations = docDestinations.some((dest) => dest.id === 13);
-      const SGODIncludedInDestinations = docDestinations.some((dest) => dest.id === 21);
+      const ASDSIncludedInDestinations = docDestinations.some(
+        (dest) => dest.id === 2,
+      );
+      const CIDIncludedInDestinations = docDestinations.some(
+        (dest) => dest.id === 13,
+      );
+      const SGODIncludedInDestinations = docDestinations.some(
+        (dest) => dest.id === 21,
+      );
 
       let xValue = centeredX;
       let yValue = position.y - signHeight;
@@ -878,7 +924,8 @@ async function initializePdf(docuId, updateFields) {
           xValue -= position.nameWidth - 50;
 
           if (newInitialSignatories.length >= 1) {
-            amountToMoveRight = (signWidth - 5) * (newInitialSignatories.length - 1);
+            amountToMoveRight =
+              (signWidth - 5) * (newInitialSignatories.length - 1);
           }
           xValue += amountToMoveRight;
         }
@@ -904,7 +951,9 @@ async function initializePdf(docuId, updateFields) {
         height: signHeight,
       });
     } else {
-      throw new Error(`Something went wrong with detecting the text ${nameToDetect}. `);
+      throw new Error(
+        `Something went wrong with detecting the text ${nameToDetect}. `,
+      );
     }
 
     if (!nameDetected) {
@@ -931,7 +980,10 @@ async function initializePdf(docuId, updateFields) {
     if (newFileDocs.length < 3) {
       newFileDocs.push(fileNameWithNewIdentifier);
     } else {
-      const oldestFilePath = path.join(__dirname, `../../../uploads/${newFileDocs[0]}`);
+      const oldestFilePath = path.join(
+        __dirname,
+        `../../../uploads/${newFileDocs[0]}`,
+      );
       try {
         fs.unlinkSync(oldestFilePath);
       } catch (err) {
@@ -945,7 +997,8 @@ async function initializePdf(docuId, updateFields) {
       files: newFileDocs,
       autoInitials: newInitialSignatories.length ? newInitialSignatories : null,
       status,
-      ...(lastSource && (lastSource.id === 1 || lastSource.id === 2) && { acceptStatus: 0 }),
+      ...(lastSource &&
+        (lastSource.id === 1 || lastSource.id === 2) && { acceptStatus: 0 }),
       ...(destinations && { destinations }),
       ...(lastSource && { lastSource }),
       remarks,
@@ -987,7 +1040,14 @@ async function autoSignPNPKI(docuId, data) {
         : [];
     newInitialSignatories.push(signedBy);
 
-    const filePath = path.join(__dirname, "..", "..", "..", "uploads", fileName);
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "uploads",
+      fileName,
+    );
     if (!fs.existsSync(filePath)) {
       throw new Error(`PDF file ${fileName} not found in uploads folder.`);
     }
@@ -1014,7 +1074,9 @@ async function autoSignPNPKI(docuId, data) {
     }
 
     if (timesDetected === 0) {
-      throw new Error(`PDF not signed: Name ${nameToDetect} is not detected on the page`);
+      throw new Error(
+        `PDF not signed: Name ${nameToDetect} is not detected on the page`,
+      );
     }
 
     const isNameWithTitle = await isNameFollowedByTitle(
@@ -1026,13 +1088,18 @@ async function autoSignPNPKI(docuId, data) {
 
     let position = { x: null, y: null, nameWidth: 0 };
     if (isNameWithTitle) {
-      position = await findTextPosition(textContent, nameToDetect, timesDetected);
+      position = await findTextPosition(
+        textContent,
+        nameToDetect,
+        timesDetected,
+      );
     } else {
       throw new Error(`Name ${uppercasedName} not followed by titles`);
     }
 
     if (position.nameWidth < 0 || position.nameWidth > pageWidth) {
-      if (position.nameWidth > 12000) throw new Error(`Name ${nameToDetect} incorrectly detected`);
+      if (position.nameWidth > 12000)
+        throw new Error(`Name ${nameToDetect} incorrectly detected`);
       position.nameWidth = 229;
     }
 
@@ -1058,7 +1125,9 @@ async function autoSignPNPKI(docuId, data) {
 
         const form = pdfDoc.getForm();
         const timestamp = Date.now();
-        const signatureField = form.createTextField(`pki_cms_signature_${timestamp}`);
+        const signatureField = form.createTextField(
+          `pki_cms_signature_${timestamp}`,
+        );
         signatureField.setText(signature);
         signatureField.addToPage(pageToSign, {
           x: centeredX + 1,
@@ -1068,7 +1137,9 @@ async function autoSignPNPKI(docuId, data) {
         });
         signatureField.enableReadOnly();
       } catch (imageError) {
-        throw new Error(`Failed to embed signature image: ${imageError.message}`);
+        throw new Error(
+          `Failed to embed signature image: ${imageError.message}`,
+        );
       }
     }
 
@@ -1077,7 +1148,10 @@ async function autoSignPNPKI(docuId, data) {
     const cleanedFileName = parsedPath.name.replace(/^\d+/, "");
     const newIdentifier = Date.now();
     const fileNameWithNewIdentifier = `${newIdentifier}${cleanedFileName}${parsedPath.ext}`;
-    const signedPdfPath = path.join(__dirname, `../../../uploads/${fileNameWithNewIdentifier}`);
+    const signedPdfPath = path.join(
+      __dirname,
+      `../../../uploads/${fileNameWithNewIdentifier}`,
+    );
     fs.writeFileSync(signedPdfPath, signedPdfBytes);
 
     const fileDocuments = selectedDocument?.files?.some((files) => files !== "")
@@ -1088,7 +1162,10 @@ async function autoSignPNPKI(docuId, data) {
     if (newFileDocs.length < 3) {
       newFileDocs.push(fileNameWithNewIdentifier);
     } else {
-      const oldestFilePath = path.join(__dirname, `../../../uploads/${newFileDocs[0]}`);
+      const oldestFilePath = path.join(
+        __dirname,
+        `../../../uploads/${newFileDocs[0]}`,
+      );
       try {
         fs.unlinkSync(oldestFilePath);
       } catch (err) {
@@ -1136,7 +1213,9 @@ async function undoLastDocumentAction(docuId, data) {
     const updateInitials = (initials) =>
       initials.filter((signatory) => signatory.id !== data?.actionBy?.id);
 
-    const unitExists = autoInitials?.some((signatory) => signatory.id === data?.actionBy?.id)
+    const unitExists = autoInitials?.some(
+      (signatory) => signatory.id === data?.actionBy?.id,
+    )
       ? "auto"
       : manualInitials?.some((signatory) => signatory.id === data?.actionBy?.id)
         ? "manual"
@@ -1147,8 +1226,12 @@ async function undoLastDocumentAction(docuId, data) {
       currentOwner: [{ id: 0, destination: 0, type: 0 }],
       status: 1,
       acceptStatus: 0,
-      ...(unitExists === "auto" && { autoInitials: updateInitials(autoInitials) }),
-      ...(unitExists === "manual" && { manualInitials: updateInitials(manualInitials) }),
+      ...(unitExists === "auto" && {
+        autoInitials: updateInitials(autoInitials),
+      }),
+      ...(unitExists === "manual" && {
+        manualInitials: updateInitials(manualInitials),
+      }),
       ...(data?.actionBy?.id === 1 && {
         destinations: [data?.actionBy],
         signedDateTime: null,

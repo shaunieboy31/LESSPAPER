@@ -81,6 +81,10 @@ async function updateDocument(docId, data) {
   }
 }
 
+/*
+// --- REVERT BACKUP: WORKFLOW ---
+// The following functions were moved to document-workflow-dao-write.js
+
 async function revertDocument(docId, data, remarks) {
   try {
     const revertedDocument = await prisma.documents.update({
@@ -107,6 +111,7 @@ async function revertDocument(docId, data, remarks) {
     throw new Error(error);
   }
 }
+*/
 
 async function deleteDocuments(documents) {
   try {
@@ -260,6 +265,7 @@ async function deleteAnnotation(annotationId) {
 }
 */
 
+/*
 async function transmitDocs(documents, updateFields) {
   try {
     const ids = documents.map((data) => data.id);
@@ -324,9 +330,9 @@ async function transmitDocs(documents, updateFields) {
     return transmittedDocuments;
   } catch (error) {
     console.error(`DAO: Error transmitting documents: ${error.message}`);
-    throw error;
   }
 }
+*/
 
 async function acceptDocuments(documents, updateFields) {
   try {
@@ -385,11 +391,11 @@ async function acceptDocuments(documents, updateFields) {
 module.exports = {
   addDocument,
   updateDocument,
-  revertDocument,
+  // revertDocument,
   deleteDocuments,
   // annotateDocument,
   // updateAnnotation,
   // deleteAnnotation,
-  transmitDocs,
+  // transmitDocs,
   acceptDocuments
 };

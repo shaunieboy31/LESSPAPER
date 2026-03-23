@@ -27,7 +27,7 @@ const updateAnnotation = async (req, res) => {
             return res.status(404).json({ error: "Annotation not found." });
         }
 
-        // If annotatedByUid is set, only that user can edit
+        // If annotatedByUid is set, only that user can edit - new feature
         // Parse both as integers to avoid type mismatch (string vs int)
         const storedUid = existingAnnotation.annotatedByUid !== null
             ? parseInt(existingAnnotation.annotatedByUid, 10)

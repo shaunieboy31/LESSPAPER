@@ -15,6 +15,20 @@ const {
   undoLastDocumentAction
 } = require("./document-signing-service");
 const {
+  holdDocument,
+  rerouteDocument,
+  saveDocument,
+  transmitDocs,
+  returnDocs,
+  revertDocument,
+  attachDocument,
+  validateDocument,
+  getSystemSetting,
+  updateSystemSetting,
+  getAllSystemSettings,
+  markAsDone,
+} = require("./document-workflow-service");
+const {
   generateLPSNo,
   updateDocument
 } = require("../utils/doc-utils");
@@ -1684,6 +1698,10 @@ async function deleteAnnotation(annotationId) {
 }
 */
 
+/*
+// --- REVERT BACKUP: WORKFLOW ---
+// The following functions were moved to document-workflow-service.js
+
 async function holdDocument(documents, remarks) {
   try {
     const onHoldPromises = documents.map(async (data) => {
@@ -2191,6 +2209,7 @@ async function markAsDone(data) {
     throw error;
   }
 }
+*/
 
 async function addDocument(file, data) {
   const fileName = file ? file.filename : "";

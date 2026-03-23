@@ -64,21 +64,23 @@ export default function SelfServiceTable({
             title={fileDocuments.length === 0 ? "No file attached" : "View"}
             placement="top"
           >
-            <GridActionsCellItem
-              disabled={fileDocuments.length === 0}
-              icon={
-                fileDocuments.length ? (
-                  <VisibilityIcon
-                    sx={{ color: isReadable ? "#1b5e54" : "#2f2f2f" }}
-                  />
-                ) : (
-                  <NotInterestedIcon sx={{ fontSize: "20px" }} />
-                )
-              }
-              label="View"
-              onClick={() => handleViewFile(params.row)}
-              color="inherit"
-            />
+            <span>
+              <GridActionsCellItem
+                disabled={fileDocuments.length === 0}
+                icon={
+                  fileDocuments.length ? (
+                    <VisibilityIcon
+                      sx={{ color: isReadable ? "#1b5e54" : "#2f2f2f" }}
+                    />
+                  ) : (
+                    <NotInterestedIcon sx={{ fontSize: "20px" }} />
+                  )
+                }
+                label="View"
+                onClick={() => handleViewFile(params.row)}
+                color="inherit"
+              />
+            </span>
           </Tooltip>,
           <Tooltip key="viewDetails" title="View Details" placement="top">
             <GridActionsCellItem
